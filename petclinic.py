@@ -20,7 +20,6 @@ from datetime import datetime
 
 # Create engine
 engine = create_engine("sqlite:///clinic.db", echo=True)
-
 # Create Base instance
 Base = declarative_base()
 
@@ -71,5 +70,35 @@ class Vet(Base):
         "Pet", secondary=appointment, back_populates="pets_vets"
     )
 
+
+def create_owner(engine, name, phone, email):
+    Session = sessionmaker(engine)
+    session = Session()
+
+    ## Add new owner
+    owner = Owner(name=name, phone=phone, email=email)
+    session.add(owner)
+    session.commit()
+    session.close()
+
+
+def create_pet(engine, name, species, breed, age, owner_id):
+    Session = sessionmaker(engine)
+    session = Session()
+
+    ## Add new pet
+    pet = Pet(name=name, species=species, breed=breed, age=age, owners_id=owner_id)
+    session.add(pet)
+    session.commit()
+    session.close()
+
+
+def main():
+    # create_owner(engine, "Billy Bob Jones", "555-123-4567", "bob@bob.com")
+    create_pet(engine, "Killer", "Mouse", "Mouse", 1, 1)
+
+
+if __name__ == "__main__":
+    main()
 
 Base.metadata.create_all(engine)
