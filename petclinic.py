@@ -19,13 +19,13 @@ from sqlalchemy.orm import (
 from datetime import datetime
 
 # Create engine
-engine = create_engine("sqlite:///clinic.db")
+engine = create_engine("sqlite:///clinic.db", echo=True)
 
 # Create Base instance
 Base = declarative_base()
 
-vets_pets = Table(
-    "vets_pets",
+appointment = Table(
+    "appointments",
     Base.metadata,
     Column("vet_id", Integer, ForeignKey("vets.id")),
     Column("pet_id", Integer, ForeignKey("pets.id")),
@@ -39,6 +39,8 @@ class Owner(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     phone: Mapped[str] = mapped_column(String(25), nullable=False)
     email: Mapped[str] = mapped_column(String(150), unique=True)
+    # Set pointer to owner attribute in Pet
+    pets: Mapped[list["Pet"]] = relationship("Pet", back_populates="owner")
 
 
 class Pet(Base):
@@ -49,8 +51,13 @@ class Pet(Base):
     species: Mapped[str] = mapped_column(String(100), nullable=False)
     breed: Mapped[str] = mapped_column(String(100), nullable=False)
     age: Mapped[int] = mapped_column(Integer)
-
-    # foreign key to owner id
+    # Link tables in database
+    owners_id: Mapped[int] = mapped_column(ForeignKey("owners.id"), nullable=False)
+    # Set pointer to pets attribute in Owner
+    owner: Mapped["Owner"] = relationship("Owner", back_populates="pets")
+    pets_vets: Mapped[list["Vet"]] = relationship(
+        "Vet", secondary=appointment, back_populates="vets_pets"
+    )
 
 
 class Vet(Base):
@@ -60,3 +67,9 @@ class Vet(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     specialization: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(150), unique=True)
+    vets_pets: Mapped[list["Pet"]] = relationship(
+        "Pet", secondary=appointment, back_populates="pets_vets"
+    )
+
+
+Base.metadata.create_all(engine)
