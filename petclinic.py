@@ -1,11 +1,9 @@
 # Required imports
-from re import S
 from sqlalchemy import (
     create_engine,
     Integer,
     String,
     ForeignKey,
-    DateTime,
     Table,
     Column,
 )
@@ -16,7 +14,6 @@ from sqlalchemy.orm import (
     Mapped,
     mapped_column,
 )
-from datetime import datetime
 
 # Create engine
 engine = create_engine("sqlite:///clinic.db", echo=True)
