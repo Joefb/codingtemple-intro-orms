@@ -95,17 +95,33 @@ def create_pet(engine, name, species, breed, age, owner_id):
     session.close()
 
 
+def create_vet(engine, name, specialization, email):
+    # Open session
+    Session = sessionmaker(engine)
+    session = Session()
+
+    # Add vet
+    vet = Vet(name=name, specialization=specialization, email=email)
+    session.add(vet)
+    session.commit()
+    session.close()
+
+
 def main():
+    pass
     # create_owner(engine, "Billy Bob Jones", "555-123-4567", "bob@bob.com") 1
-    create_pet(engine, "Super Bob", "Turkey", "Bird", 10, 1)
+    # create_pet(engine, "Super Bob", "Turkey", "Bird", 10, 1)
+    #
+    # create_owner(engine, "Sally Sue", "555-987-6543", "sally@sally.com")
+    # create_pet(engine, "Flower", "Bird", "cockatiel", 15, 2)
+    # create_pet(engine, "Moron", "Dog", "Pug", 5, 2)
+    #
+    # create_owner(engine, "Joe Mama", "555-000-1111", "joe@mama.org")
+    # create_pet(engine, "Apollo", "Cat", "Tux", 3, 3)
+    # create_pet(engine, "Rocky", "Cat", "Shorthair", 3, 3)
 
-    create_owner(engine, "Sally Sue", "555-987-6543", "sally@sally.com")
-    create_pet(engine, "Flower", "Bird", "cockatiel", 15, 2)
-    create_pet(engine, "Moron", "Dog", "Pug", 5, 2)
-
-    create_owner(engine, "Joe Mama", "555-000-1111", "joe@mama.org")
-    create_pet(engine, "Apollo", "Cat", "Tux", 3, 3)
-    create_pet(engine, "Rocky", "Cat", "Shorthair", 3, 3)
+    # create_vet(engine, "Dr. Pole", "Surgery", "pole@my_vet.com")
+    # create_vet(engine, "Dr. BadAss", "Badassery", "smith@my_vet.com")
 
 
 if __name__ == "__main__":
