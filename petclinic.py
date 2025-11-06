@@ -72,6 +72,7 @@ class Vet(Base):
 
 
 def create_owner(engine, name, phone, email):
+    # Open session
     Session = sessionmaker(engine)
     session = Session()
 
@@ -83,6 +84,7 @@ def create_owner(engine, name, phone, email):
 
 
 def create_pet(engine, name, species, breed, age, owner_id):
+    # Open session
     Session = sessionmaker(engine)
     session = Session()
 
@@ -94,8 +96,16 @@ def create_pet(engine, name, species, breed, age, owner_id):
 
 
 def main():
-    # create_owner(engine, "Billy Bob Jones", "555-123-4567", "bob@bob.com")
-    create_pet(engine, "Killer", "Mouse", "Mouse", 1, 1)
+    # create_owner(engine, "Billy Bob Jones", "555-123-4567", "bob@bob.com") 1
+    create_pet(engine, "Super Bob", "Turkey", "Bird", 10, 1)
+
+    create_owner(engine, "Sally Sue", "555-987-6543", "sally@sally.com")
+    create_pet(engine, "Flower", "Bird", "cockatiel", 15, 2)
+    create_pet(engine, "Moron", "Dog", "Pug", 5, 2)
+
+    create_owner(engine, "Joe Mama", "555-000-1111", "joe@mama.org")
+    create_pet(engine, "Apollo", "Cat", "Tux", 3, 3)
+    create_pet(engine, "Rocky", "Cat", "Shorthair", 3, 3)
 
 
 if __name__ == "__main__":
